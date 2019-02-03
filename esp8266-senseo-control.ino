@@ -70,10 +70,9 @@ void setup(void){
   timeClient.begin();
   
   //Beide Pins der Relais als Output definieren, und anschließend gleich auf LOW schalten.
-
   pinMode(toggle_power, OUTPUT);
-  digitalWrite(toggle_power, LOW);
   pinMode(toggle_coffee, OUTPUT);
+  digitalWrite(toggle_power, LOW);
   digitalWrite(toggle_coffee, LOW);
  
   Serial.begin(115200); 
@@ -98,7 +97,7 @@ void setup(void){
   // Was passiert beim Aufrufen von http://kaffeemaschine.local/
   // Einfache Textausgabe „Senseo Steuerung“.
   server.on("/", [](){
-    server.send(200, "text/html", "Senseo Steuerung");
+    server.send(200, "text/html", "<h3>"+String(machine_name)+"</h3>");
   });
 
   // Was passiert beim Aufrufen von http://kaffeemaschine.local/turn_machine_on
@@ -118,7 +117,7 @@ void setup(void){
   // Was passiert beim Aufrufen von http://kaffeemaschine.local/start_flow
   // Variable flow_pressed wird auf 1 gesetzt, somit kann unser loop() damit arbeiten
   server.on("/start_flow", [](){
-    server.send(200, "text/html", "Kaffee wird rausgelassen");
+    server.send(200, "text/html", "Kaffee wird rausgelassen.");
     flow_pressed = 1;
   });
 
@@ -207,6 +206,7 @@ void start_flow(){
   // Sobald wir einen Kafffee rauslassen, ist die Maschine „nicht mehr heiß“. 
   machine_is_hot = 0; 
 }
+
 
 
 // Dieser Code wird in Dauerschleife ausgeführt, sobald unsere setup()-Methode ausgeführt wurde.
